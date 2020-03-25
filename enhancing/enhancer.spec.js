@@ -1,11 +1,34 @@
 const enhancer = require('./enhancer.js');
 
+//item testing suite:
+const item1 = { name: 'item1', durability: 10, enhancement: 10 };
+const item2 = { name: 'item2', durability: 0, enhancement: 0 };
+const item3 = { name: 'item3', durability: 100, enhancement: 20 };
+const item4 = { name: 'item4' };
+const item5 = { name: 'item5', durability: '100', enhancement: 10 };
+const item6 = { name: 'item6', durability: 200, enhancement: 10 };
+const item7 = { name: 'item7', durability: -12, enhancement: 10 };
+
 describe('enhancer.js', function() {
   describe('.repair()', function() {
-    it.todo('throw if item does not have durability');
-    it.todo('throw if durability isnt a number');
-    it.todo('throw if durability is not between 0 and 100');
-    it.todo('durability should be 100 after a repair');
+    it('durability should be 100 after a repair', function() {
+      expect(enhancer.repair(item1).durability).toBe(100);
+      expect(enhancer.repair(item2).durability).toBe(100);
+      expect(enhancer.repair(item3).durability).toBe(100);
+    });
+
+    it('throw if item does not have durability', function() {
+      expect(() => enhancer.repair(item4)).toThrow();
+    });
+
+    it('throw if durability isnt a number', function() {
+      expect(() => enhancer.repair(item5)).toThrow();
+    });
+
+    it('throw if durability is not between 0 and 100', function() {
+      expect(() => enhancer.repair(item6)).toThrow();
+      expect(() => enhancer.repair(item7)).toThrow();
+    });
   });
 
   describe('.success()', function() {

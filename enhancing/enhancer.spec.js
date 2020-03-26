@@ -9,6 +9,19 @@ const item5 = { name: 'item5', durability: '100', enhancement: '10' };
 const item6 = { name: 'item6', durability: 200, enhancement: 22 };
 const item7 = { name: 'item7', durability: -12, enhancement: -1 };
 
+const item8 = { name: 'item8', durability: 30, enhancement: 10 };
+const item9 = { name: 'item9', durability: 100, enhancement: 14 };
+const item10 = { name: 'item10', durability: 5, enhancement: 0 };
+const item11 = { name: 'item11', durability: 10, enhancement: 15 };
+const item12 = { name: 'item12', durability: 100, enhancement: 16 };
+const item13 = { name: 'item13', durability: 50, enhancement: 20 };
+const item14 = { name: 'item14', durability: 20 };
+const item15 = { name: 'item15', enhancement: 12 };
+const item16 = { name: 'item16', durability: 20, enhancement: '12' };
+const item17 = { name: 'item17', durability: '20', enhancement: 12 };
+const item18 = { name: 'item18', durability: 3, enhancement: 2 };
+const item19 = { name: 'item19', durability: 9, enhancement: 18 };
+
 describe('enhancer.js', function() {
   describe('.repair()', function() {
     it('durability should be 100 after a repair', function() {
@@ -56,13 +69,44 @@ describe('enhancer.js', function() {
   });
 
   describe('.fail()', function() {
-    it.todo('throw if item does not have durability or enhancement');
-    it.todo('throw if enhancement or durability arent numbers');
-    it.todo('throw if enhancement or durability are out of range');
-    it.todo('durability should drop by 5 if enhancement below 15');
-    it.todo('durabiltiy should drop by 10 if enhancement at or above 15');
-    it.todo('enhancement should drop by 1 if enhancement is above 16');
-    it.todo('durability should not go below 0');
+    it('durability should drop by 5 if enhancement below 15', function() {
+      expect(enhancer.fail(item8).durability).toBe(25);
+      expect(enhancer.fail(item9).durability).toBe(95);
+      expect(enhancer.fail(item10).durability).toBe(0);
+    });
+
+    it('durabiltiy should drop by 10 if enhancement at or above 15', function() {
+      expect(enhancer.fail(item11).durability).toBe(0);
+      expect(enhancer.fail(item12).durability).toBe(90);
+      expect(enhancer.fail(item13).durability).toBe(40);
+    });
+
+    it('enhancement should drop by 1 if enhancement is above 16', function() {
+      expect(enhancer.fail(item12).enhancement).toBe(16);
+      expect(enhancer.fail(item13).enhancement).toBe(19);
+    });
+
+    it('throw if item does not have durability or enhancement', function() {
+      expect(() => enhancer.fail(item4)).toThrow();
+      expect(() => enhancer.fail(item14)).toThrow();
+      expect(() => enhancer.fail(item15)).toThrow();
+    });
+
+    it('throw if enhancement or durability arent numbers', function() {
+      expect(() => enhancer.fail(item5)).toThrow();
+      expect(() => enhancer.fail(item16)).toThrow();
+      expect(() => enhancer.fail(item17)).toThrow();
+    });
+
+    it('throw if enhancement or durability are out of range', function() {
+      expect(() => enhancer.fail(item6)).toThrow();
+      expect(() => enhancer.fail(item7)).toThrow();
+    });
+
+    it('durability should not go below 0', function() {
+      expect(enhancer.fail(item18).durability).toBe(0);
+      expect(enhancer.fail(item19).durability).toBe(0);
+    });
   });
 
   describe('.get()', function() {

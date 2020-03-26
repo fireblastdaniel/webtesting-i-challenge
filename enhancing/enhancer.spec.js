@@ -5,9 +5,9 @@ const item1 = { name: 'item1', durability: 10, enhancement: 10 };
 const item2 = { name: 'item2', durability: 0, enhancement: 0 };
 const item3 = { name: 'item3', durability: 100, enhancement: 20 };
 const item4 = { name: 'item4' };
-const item5 = { name: 'item5', durability: '100', enhancement: 10 };
-const item6 = { name: 'item6', durability: 200, enhancement: 10 };
-const item7 = { name: 'item7', durability: -12, enhancement: 10 };
+const item5 = { name: 'item5', durability: '100', enhancement: '10' };
+const item6 = { name: 'item6', durability: 200, enhancement: 22 };
+const item7 = { name: 'item7', durability: -12, enhancement: -1 };
 
 describe('enhancer.js', function() {
   describe('.repair()', function() {
@@ -31,12 +31,28 @@ describe('enhancer.js', function() {
     });
   });
 
-  describe('.success()', function() {
-    it.todo('throw if item does not have enhancement');
-    it.todo('throw if enhancement isnt a number');
-    it.todo('throw if enhancement isnt between 0 and 20');
-    it.todo('enhancement should be 1 higher than before');
-    it.todo('enhancement should not increase above 20');
+  describe('.succeed()', function() {
+    it('enhancement should be 1 higher than before', function() {
+      expect(enhancer.succeed(item1).enhancement).toBe(11);
+      expect(enhancer.succeed(item2).enhancement).toBe(1);
+    });
+
+    it('enhancement should not increase above 20', function() {
+      expect(enhancer.succeed(item3).enhancement).toBe(20);
+    });
+
+    it('throw if item does not have enhancement', function() {
+      expect(() => enhancer.succeed(item4)).toThrow();
+    });
+
+    it('throw if enhancement isnt a number', function() {
+      expect(() => enhancer.succeed(item5)).toThrow();
+    });
+
+    it('throw if enhancement isnt between 0 and 20', function() {
+      expect(() => enhancer.succeed(item6)).toThrow();
+      expect(() => enhancer.succeed(item7)).toThrow();
+    });
   });
 
   describe('.fail()', function() {
